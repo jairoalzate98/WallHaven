@@ -3,6 +3,7 @@ package controllers;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.JOptionPane;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
@@ -18,7 +19,13 @@ public class Controller {
 	private MainWindow mainWindow;
 	
 	public Controller() {
+		String search = JOptionPane.showInputDialog(mainWindow, "Ingrese la palabra a buscar");
 		fileManager = new FileManager();
+		try {
+			fileManager.getInfo(search);
+		} catch (IOException | SAXException | ParserConfigurationException e1) {
+			System.out.println(e1.getMessage());
+		}
 		manager = new Manager();
 		try {
 			ArrayList<String> imgs = fileManager.readFile();
