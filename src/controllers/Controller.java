@@ -1,6 +1,6 @@
 package controllers;
 
-import java.awt.event.ActionEvent;
+import java.awt.event.ActionEvent;		
 import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
@@ -36,10 +36,9 @@ public class Controller implements ActionListener{
 			ArrayList<String> imgs = fileManager.readFile();
 			for (String string : imgs) {
 				manager.addImg(Manager.createImg(string));
-			}
+			}		
 		} catch (IOException | SAXException | ParserConfigurationException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
+			System.out.println("hola" +e.getMessage());
 		}
 		mainWindow.initImgs(manager.getImgList());
 		mainWindow.revalidate();

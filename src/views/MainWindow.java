@@ -41,6 +41,7 @@ public class MainWindow extends JFrame{
 	}
 
 	public void initImgs(ArrayList<Img> imgList) {
+		jpImgs.removeAll();
 		jpImgs.setLayout(new GridLayout(imgList.size()/3, 3, 10, 10));
 		for (Img img : imgList) {
 			try {
