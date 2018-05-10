@@ -16,25 +16,31 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
 
+import controllers.Controller;
 import models.Img;
 
 public class MainWindow extends JFrame{
 
 	private static final long serialVersionUID = 1L;
 	private JPanel jpImgs;
+	private JPanelHeader jPanelHeader;
 
-	public MainWindow(ArrayList<Img> imgList) {
+	public MainWindow(Controller controller) {
 		setTitle("Img");
 		setDefaultCloseOperation(EXIT_ON_CLOSE);
 		setExtendedState(MAXIMIZED_BOTH);
+		setIconImage(new ImageIcon(getClass().getResource("/img/icon.png")).getImage());
+		jPanelHeader = new JPanelHeader(controller);
+		add(jPanelHeader, BorderLayout.NORTH);
 		jpImgs = new JPanel();
-		jpImgs.setBackground(Color.WHITE);
+		jpImgs.setBorder(null);
+		jpImgs.setBackground(Color.BLACK);
 		JScrollPane js = new JScrollPane(jpImgs);
+		js.setBorder(null);
 		add(js, BorderLayout.CENTER);
-		initImgs(imgList);
 	}
 
-	private void initImgs(ArrayList<Img> imgList) {
+	public void initImgs(ArrayList<Img> imgList) {
 		jpImgs.setLayout(new GridLayout(imgList.size()/3, 3, 10, 10));
 		for (Img img : imgList) {
 			try {
@@ -55,5 +61,9 @@ public class MainWindow extends JFrame{
 				System.out.println(e.getMessage());
 			}
 		}
+	}
+	
+	public String getSearch(){
+		return jPanelHeader.getInfo();
 	}
 }
