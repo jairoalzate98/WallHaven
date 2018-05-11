@@ -2,6 +2,7 @@ package views;
 
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.GridLayout;
 import java.awt.Image;
 import java.io.File;
@@ -21,6 +22,7 @@ public class MainWindow extends JFrame{
 	private static final long serialVersionUID = 1L;
 	private JPanel jpImgs;
 	private JPanelHeader jPanelHeader;
+	private JPanelBar jPanelBar;
 
 	public MainWindow(Controller controller) {
 		setTitle("Img");
@@ -35,11 +37,22 @@ public class MainWindow extends JFrame{
 		JScrollPane js = new JScrollPane(jpImgs);
 		js.setBorder(null);
 		add(js, BorderLayout.CENTER);
+		jPanelBar = new JPanelBar();
+		jPanelBar.setPreferredSize(new Dimension(getWidth(), 60));
+		add(jPanelBar, BorderLayout.SOUTH);
 	}
 
 	public void initImgs(ArrayList<Img> imgList) {
 		jpImgs.removeAll();
-		jpImgs.setLayout(new GridLayout(imgList.size() / 3, 3));
+		int rows;
+		if (imgList.size() < 3) {
+			rows = 1;
+		}else if (imgList.size() % 3 != 0) {
+			rows = (imgList.size() / 3) + 1;
+		}else{
+			rows = imgList.size() / 3;
+		}
+		jpImgs.setLayout(new GridLayout(rows, 3, 20, 20));
 		File url = new File("img/BlackAndWhite");
 		File[] files = url.listFiles();		
 		for (File file : files) {
@@ -56,5 +69,11 @@ public class MainWindow extends JFrame{
 	
 	public String getSearch(){
 		return jPanelHeader.getInfo();
+	}
+	
+	public void setValues(int[] values){
+		jPanelBar.setDownload(values[0]);
+		jPanelBar.setConvert(values[1]);
+		jPanelBar.setTotal(values[2]);
 	}
 }

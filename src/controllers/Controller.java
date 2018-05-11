@@ -10,6 +10,7 @@ import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
 
+import models.Img;
 import models.Manager;
 import persistence.FileManager;
 import views.MainWindow;
@@ -50,9 +51,40 @@ public class Controller implements ActionListener{
 			System.out.println(e.getMessage());
 		}
 	}
+	
+	public int getNumberOfDownload(){
+		int i = 0;
+		ArrayList<Img> imgs = manager.getImgList();
+		for (Img img : imgs) {
+			if (img.isDownload()) {
+				i++;
+			}
+		}
+		return i;
+	}
+	
+
+	
+	public int getNumberOfConvert(){
+		int i = 0;
+		ArrayList<Img> imgs = manager.getImgList();
+		for (Img img : imgs) {
+			if (img.isConvert()) {
+				i++;
+			}
+		}
+		return i;
+	}
 
 	private void refreshView() {
 		mainWindow.initImgs(manager.getImgList());
+		int download = getNumberOfDownload();
+		int convert = getNumberOfConvert();
+		if (convert == manager.getImgList().size()) {
+			timer.stop();
+			System.out.println("hola");
+		}
+		mainWindow.setValues(new int[]{download , convert, manager.getImgList().size()});
 		mainWindow.revalidate();
 		mainWindow.repaint();
 	}

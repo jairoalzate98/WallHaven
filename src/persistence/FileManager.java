@@ -61,7 +61,7 @@ public class FileManager {
 				System.out.println("Descargando -> " + url);
 				imgs.add(readImgs(url, true));
 				i++;
-				if (3 == i) {
+				if (4 == i) {
 					break;
 				}
 			}
