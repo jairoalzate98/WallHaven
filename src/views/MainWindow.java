@@ -4,12 +4,9 @@ import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.GridLayout;
 import java.awt.Image;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.net.URL;
+import java.io.File;
 import java.util.ArrayList;
 
-import javax.imageio.ImageIO;
 import javax.swing.ImageIcon;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -42,24 +39,17 @@ public class MainWindow extends JFrame{
 
 	public void initImgs(ArrayList<Img> imgList) {
 		jpImgs.removeAll();
-		jpImgs.setLayout(new GridLayout(imgList.size()/3, 3, 10, 10));
-		for (Img img : imgList) {
-			try {
-				BufferedImage br = ImageIO.read(new URL(img.getPath())); 
-				for (int i = 0; i < br.getWidth(); i++) {
-					for (int j = 0; j < br.getHeight(); j++) {
-						Color color = new Color(br.getRGB(i, j));
-						int med = (color.getBlue() + color.getGreen() + color.getRed())/3;
-						br.setRGB(i, j, new Color(med, med, med).getRGB());
-					}
-				}
-				JLabel label = new JLabel();
-				ImageIcon imageIcon = new ImageIcon(br);
-				ImageIcon imageIconFinal = new ImageIcon(imageIcon.getImage().getScaledInstance(250, 250, Image.SCALE_DEFAULT));
-				label.setIcon(imageIconFinal);
-				jpImgs.add(label);
-			} catch (IOException e) {
-				System.out.println(e.getMessage());
+		jpImgs.setLayout(new GridLayout(imgList.size() / 3, 3));
+		File url = new File("img/BlackAndWhite");
+		File[] files = url.listFiles();		
+		for (File file : files) {
+			if (file.getName().substring(file.getName().length() - 3, file.getName().length()).equals("jpg")) {
+				JLabel jlimg = new JLabel();
+				ImageIcon imageIcon = new ImageIcon(new ImageIcon(file.getAbsolutePath()).getImage().getScaledInstance(350, 350, Image.SCALE_DEFAULT));
+				jlimg.setIcon(imageIcon);
+				jpImgs.add(jlimg);
+				revalidate();
+				repaint();
 			}
 		}
 	}

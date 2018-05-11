@@ -5,6 +5,7 @@ import java.awt.event.ActionListener;
 import java.io.IOException;
 import java.util.ArrayList;
 
+import javax.swing.Timer;
 import javax.xml.parsers.ParserConfigurationException;
 
 import org.xml.sax.SAXException;
@@ -18,12 +19,19 @@ public class Controller implements ActionListener{
 	private Manager manager;
 	private FileManager fileManager;
 	private MainWindow mainWindow;
+	private Timer timer;
 	
 	public Controller() {
 		fileManager = new FileManager();
 		manager = new Manager();
 		mainWindow = new MainWindow(this);
 		mainWindow.setVisible(true);
+		timer = new Timer(1000, new ActionListener() {
+			@Override
+			public void actionPerformed(ActionEvent e) {
+				refreshView();
+			}
+		});
 	}
 
 	private void initImages(String search) {
@@ -34,12 +42,16 @@ public class Controller implements ActionListener{
 		}
 		try {
 			ArrayList<String> imgs = fileManager.readFile();
+			manager.clearArray();
 			for (String string : imgs) {
 				manager.addImg(Manager.createImg(string));
 			}		
-		} catch (IOException | SAXException | ParserConfigurationException e) {
-			System.out.println("hola" +e.getMessage());
+		} catch (IOException | SAXException | ParserConfigurationException  e) {
+			System.out.println(e.getMessage());
 		}
+	}
+
+	private void refreshView() {
 		mainWindow.initImgs(manager.getImgList());
 		mainWindow.revalidate();
 		mainWindow.repaint();
@@ -49,6 +61,7 @@ public class Controller implements ActionListener{
 	public void actionPerformed(ActionEvent e) {
 		switch (Events.valueOf(e.getActionCommand())) {
 		case SEARCH:
+			timer.start();
 			initImages(mainWindow.getSearch());
 			break;
 		}

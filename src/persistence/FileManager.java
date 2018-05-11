@@ -1,10 +1,10 @@
 package persistence;
 
-import java.io.BufferedInputStream;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.net.URL;
 import java.util.ArrayList;
@@ -25,10 +25,10 @@ public class FileManager {
 		URL url = new URL(URL_PAGE_INIT + search + "/"); 
 //		URLConnection connection = url.openConnection(proxy);
 //		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-		BufferedInputStream in = new BufferedInputStream(url.openStream());
+		InputStream in = url.openStream();
 		int ch;
 		PrintWriter pr = new PrintWriter("info.txt");
-		while ((ch = in.read()) != -1) {
+		while ((ch = in.read()) != -1 ) {
 			pr.append((char) ch);
 		}
 		pr.close();
@@ -39,10 +39,10 @@ public class FileManager {
 		URL url = new URL(URL_PRINCIPAL + search); 
 //		URLConnection connection = url.openConnection(proxy);
 //		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
-		BufferedInputStream in = new BufferedInputStream(url.openStream());
+		InputStream in = url.openStream();
 		int ch;
 		PrintWriter pr = new PrintWriter("img.txt");
-		while ((ch = in.read()) != -1) {
+		while ((ch = in.read()) != -1 ) {
 			pr.append((char) ch);
 		}
 		pr.close();
@@ -52,12 +52,18 @@ public class FileManager {
 		ArrayList<String> imgs = new ArrayList<>();
 		BufferedReader br = new BufferedReader(new FileReader(new File("info.txt")));
 		String data = "";
+		int i = 0;
 		while((data = br.readLine()) != null){
 			Pattern p = Pattern.compile("href=\"/wallpaper/(.*?)\"", Pattern.CASE_INSENSITIVE);
 			Matcher m = p.matcher(data);
 			if (m.find()) {
 				String url = data.substring(m.start() + 6, m.end() - 1);
+				System.out.println("Descargando -> " + url);
 				imgs.add(readImgs(url, true));
+				i++;
+				if (3 == i) {
+					break;
+				}
 			}
 		}
 		br.close();

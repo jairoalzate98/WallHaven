@@ -21,4 +21,8 @@ public class Manager {
 	public ArrayList<Img> getImgList() {
 		return imgList;
 	}
+	
+	public void clearArray(){
+		imgList = new ArrayList<>();
+	}
 }
