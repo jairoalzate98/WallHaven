@@ -48,7 +48,7 @@ public class JPanelBar extends JPanel{
 			g.fillRect((getWidth() / 2) - 200, getHeight() - 50, (download*400)/total, 40);
 			g.setColor(Color.BLACK);
 			g.setFont(new Font("Ubunutu", Font.BOLD, 17));
-			g.drawString("Descangadas y convitidas -> " + download + "de " + total, (getWidth() / 2) - 150, getHeight() - 25);
+			g.drawString("Descargadas y convertidas -> " + download + " de " + total, (getWidth() / 2) - 150, getHeight() - 25);
 		}catch (Exception e) {
 			System.out.println(e.getMessage());
 		}

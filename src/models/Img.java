@@ -22,6 +22,7 @@ public class Img implements Runnable{
 	private boolean download;
 	private boolean finish;
 	private Thread thread;
+	private String pathAbsolute;
 
 	public Img(String path) {
 		this.path = path;
@@ -81,6 +82,7 @@ public class Img implements Runnable{
 				br.setRGB(i, j, new Color(med, med, med).getRGB());
 			}
 		}
+		pathAbsolute = "img/BlackAndWhite/" + path.substring(41, path.length());
 		ImageIO.write(br, "jpg", new File("img/BlackAndWhite/" + path.substring(41, path.length())));
 	}
 
@@ -90,7 +92,12 @@ public class Img implements Runnable{
 //		URLConnection connection = url.openConnection(proxy);
 //		connection.setRequestProperty("User-Agent", "Mozilla/5.0 (Macintosh; U; Intel Mac OS X 10.4; en-US; rv:1.9.2.2) Gecko/20100316 Firefox/3.6.2");
 		InputStream in = url.openStream();
+		pathAbsolute = "img/" + path.substring(41, path.length());
 		Files.copy(in, Paths.get("img/" + path.substring(41, path.length())));
 		download = true;
+	}
+
+	public String getPathAbsolute() {
+		return pathAbsolute;
 	}
 }
